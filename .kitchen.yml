@@ -1,0 +1,31 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  always_update_cookbooks: false
+
+verifier:
+  name: inspec
+
+transport:
+  name: winrm
+  elevated: true
+  username: Administrator
+  password: Pass@word1
+
+platforms:
+  - name: windows-2012R2
+    driver:
+      customize:
+        memory: 2048
+
+suites:
+  - name: default
+    run_list:
+      - recipe[web_content::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
